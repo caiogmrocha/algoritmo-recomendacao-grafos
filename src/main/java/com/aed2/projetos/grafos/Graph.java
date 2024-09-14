@@ -8,67 +8,67 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Graph {
-    private String id;
-    private List<Graph> adjacences;
+public class Graph<T extends GraphData> {
+    private T data;
+    private List<Graph<T>> adjacences;
 
-    public Graph(String id) {
-        this.id = id;
-        this.adjacences = new ArrayList<Graph>();
+    public Graph(T data) {
+        this.data = data;
+        this.adjacences = new ArrayList<Graph<T>>();
     }
 
-    public String getId() {
-        return id;
+    public T getData() {
+        return data;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setData(T data) {
+        this.data = data;
     }
 
-    public void addAdjacence(Graph adjacence) {
+    public void addAdjacence(Graph<T> adjacence) {
         if (!this.adjacences.contains(adjacence)) {
             this.adjacences.add(adjacence);
         }
     }
 
-    public void removeAdjacence(Graph adjacence) {
+    public void removeAdjacence(Graph<T> adjacence) {
         if (!this.adjacences.contains(adjacence)) {
             this.adjacences.remove(adjacence);
         }
     }
 
-    public Boolean hasAdjacence(Graph adjacence) {
+    public Boolean hasAdjacence(Graph<T> adjacence) {
         return this.adjacences.contains(adjacence);
     }
 
-    public Graph BFS(String id, Stack<Graph> pathStack, Map<String, Boolean> visitedVerticesMap) {
-        if (this.id.equals(id)) {
+    public Graph<T> BFS(String id, Stack<Graph<T>> pathStack, Map<String, Boolean> visitedVerticesMap) {
+        if (this.data.id.equals(id)) {
             return this;
         } else {
             if (visitedVerticesMap == null) {
                 visitedVerticesMap = new HashMap<String, Boolean>();
             }
 
-            visitedVerticesMap.put(this.id, true);
+            visitedVerticesMap.put(this.data.id, true);
 
             if (pathStack == null) {
-                pathStack = new Stack<Graph>();
+                pathStack = new Stack<Graph<T>>();
             }
 
             for (int i = this.adjacences.size() - 1; i >= 0; i--) {
-                Graph adjacentVertex = this.adjacences.get(i);
+                Graph<T> adjacentVertex = this.adjacences.get(i);
 
-                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getId());
+                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
 
                 if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
                     pathStack.push(adjacentVertex);
                 }
             }
 
-            Graph vertex = null;
+            Graph<T> vertex = null;
 
             while (pathStack.size() > 0 && vertex == null) {
-                Graph child = pathStack.pop();
+                Graph<T> child = pathStack.pop();
 
                 vertex = child.BFS(id, pathStack, visitedVerticesMap);
             }
@@ -77,34 +77,34 @@ public class Graph {
         }
     }
 
-    public Graph DFS(String id, Queue<Graph> pathQueue, Map<String, Boolean> visitedVerticesMap) {
-        if (this.id.equals(id)) {
+    public Graph<T> DFS(String id, Queue<Graph<T>> pathQueue, Map<String, Boolean> visitedVerticesMap) {
+        if (this.data.id.equals(id)) {
             return this;
         } else {
             if (visitedVerticesMap == null) {
                 visitedVerticesMap = new HashMap<String, Boolean>();
             }
 
-            visitedVerticesMap.put(this.id, true);
+            visitedVerticesMap.put(this.data.id, true);
 
             if (pathQueue == null) {
-                pathQueue = new LinkedList<Graph>();
+                pathQueue = new LinkedList<Graph<T>>();
             }
 
             for (int i = this.adjacences.size() - 1; i >= 0; i--) {
-                Graph adjacentVertex = this.adjacences.get(i);
+                Graph<T> adjacentVertex = this.adjacences.get(i);
 
-                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getId());
+                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
 
                 if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
                     pathQueue.add(adjacentVertex);
                 }
             }
 
-            Graph vertex = null;
+            Graph<T> vertex = null;
 
             while (pathQueue.size() > 0 && vertex == null) {
-                Graph child = pathQueue.poll();
+                Graph<T> child = pathQueue.poll();
 
                 vertex = child.DFS(id, pathQueue, visitedVerticesMap);
             }
@@ -117,10 +117,11 @@ public class Graph {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((this.getData().getId() == null) ? 0 : this.getData().getId().hashCode());
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -129,11 +130,11 @@ public class Graph {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Graph other = (Graph) obj;
-        if (id == null) {
-            if (other.id != null)
+        Graph<T> other = (Graph<T>) obj;
+        if (this.getData().getId() == null) {
+            if (other.getData().getId() != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!this.getData().getId().equals(other.getData().getId()))
             return false;
         return true;
     }

@@ -10,7 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            List<Graph> graphNodes = new ArrayList<Graph>();
+            List<Graph<Profile>> graphNodes = new ArrayList<Graph<Profile>>();
 
             Integer vertices = scanner.nextInt();
             Integer edges = scanner.nextInt();
@@ -18,7 +18,7 @@ public class Main {
             for (Integer i = 0; i < vertices; i++) {
                 String graphId = scanner.next();
 
-                Graph graph = new Graph(graphId);
+                Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, graphId, new String[1]));
 
                 graphNodes.add(graph);
             }
@@ -29,14 +29,14 @@ public class Main {
                 String firstNodeId = String.valueOf(edgeInput.charAt(0));
                 String secondNodeId = String.valueOf(edgeInput.charAt(1));
 
-                Optional<Graph> firstNode = graphNodes.stream().filter(graph -> graph.getId().equals(firstNodeId))
+                Optional<Graph<Profile>> firstNode = graphNodes.stream().filter(graph -> graph.getData().getId().equals(firstNodeId))
                         .findFirst();
 
                 if (firstNode.isEmpty()) {
                     throw new Exception("First node not found");
                 }
 
-                Optional<Graph> secondNode = graphNodes.stream().filter(graph -> graph.getId().equals(secondNodeId))
+                Optional<Graph<Profile>> secondNode = graphNodes.stream().filter(graph -> graph.getData().getId().equals(secondNodeId))
                         .findFirst();
 
                 if (secondNode.isEmpty()) {
@@ -60,11 +60,11 @@ public class Main {
                 }
             }
 
-            Graph graph = graphNodes.get(0);
+            Graph<Profile> graph = graphNodes.get(0);
 
-            Graph foundedVertex = graph.DFS("C", null, null);
+            Graph<Profile> foundedVertex = graph.DFS("C", null, null);
 
-            System.out.println(String.format("Vertex A: %s", (foundedVertex != null ? foundedVertex.getId() : "NOT FOUND")));
+            System.out.println(String.format("Vertex A: %s", (foundedVertex != null ? foundedVertex.getData().getId() : "NOT FOUND")));
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         } finally {
