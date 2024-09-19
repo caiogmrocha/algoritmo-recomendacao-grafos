@@ -16,18 +16,17 @@ public class Main {
             Integer edges = scanner.nextInt();
 
             for (Integer i = 0; i < vertices; i++) {
-                String graphId = scanner.next();
+                Integer graphId = scanner.nextInt();
 
-                Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, graphId, new String[1]));
+                Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, "graphId", new String[1]));
 
                 graphNodes.add(graph);
             }
 
             for (Integer i = 0; i < edges; i++) {
-                String edgeInput = scanner.next();
 
-                String firstNodeId = String.valueOf(edgeInput.charAt(0));
-                String secondNodeId = String.valueOf(edgeInput.charAt(1));
+                Integer firstNodeId = scanner.nextInt();
+                Integer secondNodeId = scanner.nextInt();
 
                 Optional<Graph<Profile>> firstNode = graphNodes.stream().filter(graph -> graph.getData().getId().equals(firstNodeId))
                         .findFirst();
@@ -36,7 +35,7 @@ public class Main {
                     throw new Exception("First node not found");
                 }
 
-                Optional<Graph<Profile>> secondNode = graphNodes.stream().filter(graph -> graph.getData().getId().equals(secondNodeId))
+                Optional<Graph<Profile>> secondNode = graphNodes.stream().filter(graph -> (graph.getData().getId() == secondNodeId))
                         .findFirst();
 
                 if (secondNode.isEmpty()) {
@@ -62,9 +61,11 @@ public class Main {
 
             Graph<Profile> graph = graphNodes.get(0);
 
-            Graph<Profile> foundedVertex = graph.DFS("C", null, null);
+            Integer vertexToBeFoundedId = scanner.nextInt();
 
-            System.out.println(String.format("Vertex A: %s", (foundedVertex != null ? foundedVertex.getData().getId() : "NOT FOUND")));
+            Graph<Profile> foundedVertex = graph.DFS(vertexToBeFoundedId, null, null);
+
+            System.out.println(String.format("Vertex search status: %s", (foundedVertex != null ? "FOUNDED" : "NOT FOUND")));
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         } finally {

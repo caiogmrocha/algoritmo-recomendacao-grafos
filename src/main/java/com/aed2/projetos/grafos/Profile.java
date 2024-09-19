@@ -4,7 +4,7 @@ public class Profile extends GraphData {
     private String name;
     private String[] interests;
     
-    public Profile(String id, String name, String[] interests) {
+    public Profile(Integer id, String name, String[] interests) {
         super(id);
         this.name = name;
         this.interests = interests;

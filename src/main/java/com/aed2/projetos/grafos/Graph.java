@@ -41,12 +41,12 @@ public class Graph<T extends GraphData> {
         return this.adjacences.contains(adjacence);
     }
 
-    public Graph<T> BFS(String id, Stack<Graph<T>> pathStack, Map<String, Boolean> visitedVerticesMap) {
+    public Graph<T> BFS(Integer id, Stack<Graph<T>> pathStack, Map<Integer, Boolean> visitedVerticesMap) {
         if (this.data.id.equals(id)) {
             return this;
         } else {
             if (visitedVerticesMap == null) {
-                visitedVerticesMap = new HashMap<String, Boolean>();
+                visitedVerticesMap = new HashMap<Integer, Boolean>();
             }
 
             visitedVerticesMap.put(this.data.id, true);
@@ -77,12 +77,12 @@ public class Graph<T extends GraphData> {
         }
     }
 
-    public Graph<T> DFS(String id, Queue<Graph<T>> pathQueue, Map<String, Boolean> visitedVerticesMap) {
+    public Graph<T> DFS(Integer id, Queue<Graph<T>> pathQueue, Map<Integer, Boolean> visitedVerticesMap) {
         if (this.data.id.equals(id)) {
             return this;
         } else {
             if (visitedVerticesMap == null) {
-                visitedVerticesMap = new HashMap<String, Boolean>();
+                visitedVerticesMap = new HashMap<Integer, Boolean>();
             }
 
             visitedVerticesMap.put(this.data.id, true);

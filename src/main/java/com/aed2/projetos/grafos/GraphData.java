@@ -1,17 +1,17 @@
 package com.aed2.projetos.grafos;
 
 public abstract class GraphData {
-    protected String id;
+    protected Integer id;
 
-    public GraphData(String id) {
+    public GraphData(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
