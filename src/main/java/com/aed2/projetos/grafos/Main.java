@@ -5,8 +5,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import com.aed2.projetos.grafos.data.Graph;
+import com.aed2.projetos.grafos.data.Profile;
+import com.aed2.projetos.grafos.readers.EdgesDatabaseReader;
+import com.aed2.projetos.grafos.readers.VerticesDatabaseReader;
+
 public class Main {
     public static void main(String[] args) {
+        VerticesDatabaseReader verticesDatabaseReader = new VerticesDatabaseReader();
+
+        List<Graph<Profile>> graphVerticesList = verticesDatabaseReader.readVertices();
+
+        EdgesDatabaseReader edgesDatabaseReader = new EdgesDatabaseReader();
+
+        try {
+            graphVerticesList = edgesDatabaseReader.readEdges(graphVerticesList);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void runGraphOnCommandLine() {
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -14,10 +33,9 @@ public class Main {
             
             System.out.println("Quantidade de vertices: ");
             Integer vertices = scanner.nextInt();
+            
             System.out.println("\nQuantidade de arestas: ");
             Integer edges = scanner.nextInt();
-            
-            // adicionando elementos no grafo + identificação de grafos 
             
             System.out.println("\nInforme o valor dos vertices:");
             for (Integer i = 0; i < vertices; i++) {
@@ -30,7 +48,6 @@ public class Main {
             
             // informar dois valores que vão ser conectados multiplicados pela quantidade de conexões 
             for (Integer i = 0; i < edges; i++) {
-            	
             	System.out.println("\nInformar conexão entre dois grafos:");
                 Integer firstNodeId = scanner.nextInt();
                 Integer secondNodeId = scanner.nextInt();
