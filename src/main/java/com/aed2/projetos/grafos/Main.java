@@ -11,10 +11,15 @@ public class Main {
 
         try {
             List<Graph<Profile>> graphNodes = new ArrayList<Graph<Profile>>();
-
+            
+            System.out.println("Quantidade de vertices: ");
             Integer vertices = scanner.nextInt();
+            System.out.println("\nQuantidade de arestas: ");
             Integer edges = scanner.nextInt();
-
+            
+            // adicionando elementos no grafo + identificação de grafos 
+            
+            System.out.println("\nInforme o valor dos vertices:");
             for (Integer i = 0; i < vertices; i++) {
                 Integer graphId = scanner.nextInt();
 
@@ -22,9 +27,11 @@ public class Main {
 
                 graphNodes.add(graph);
             }
-
+            
+            // informar dois valores que vão ser conectados multiplicados pela quantidade de conexões 
             for (Integer i = 0; i < edges; i++) {
-
+            	
+            	System.out.println("\nInformar conexão entre dois grafos:");
                 Integer firstNodeId = scanner.nextInt();
                 Integer secondNodeId = scanner.nextInt();
 
@@ -43,31 +50,33 @@ public class Main {
                 }
 
                 if (firstNode.get().equals(secondNode.get())) {
-                    throw new Exception("First and second nodes are the same");
+                    throw new Exception("[Error]: Os vértices não podem ser iguais");
                 }
 
                 if (firstNode.get().hasAdjacence(secondNode.get())) {
-                    throw new Exception("First and second nodes are already connected");
+                    throw new Exception("[Error]: Os vértices já estão conectados");
                 } else {
                     firstNode.get().addAdjacence(secondNode.get());
                 }
 
                 if (secondNode.get().hasAdjacence(firstNode.get())) {
-                    throw new Exception("First and second nodes are already connected");
+                    throw new Exception("[Error]: Os vértices já estão conectados");
                 } else {
                     secondNode.get().addAdjacence(firstNode.get());
                 }
             }
 
             Graph<Profile> graph = graphNodes.get(0);
-
+            
+            // encontrar vertice no grafo  
+            System.out.println("\nInformar valor a ser procurado no grafo: ");
             Integer vertexToBeFoundedId = scanner.nextInt();
 
-            Graph<Profile> foundedVertex = graph.DFS(vertexToBeFoundedId, null, null);
+            Graph<Profile> foundedVertex = graph.DFS(vertexToBeFoundedId, null);
 
-            System.out.println(String.format("Vertex search status: %s", (foundedVertex != null ? "FOUNDED" : "NOT FOUND")));
+            System.out.println(String.format("\nResultado: %s", (foundedVertex != null ? "Vertice encontrado !" : "Vertice nao encontrado !")));
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            System.out.println(e);
         } finally {
             scanner.close();
         }
