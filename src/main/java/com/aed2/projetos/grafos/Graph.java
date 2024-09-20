@@ -2,9 +2,6 @@ package com.aed2.projetos.grafos;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -40,77 +37,36 @@ public class Graph<T extends GraphData> {
     public Boolean hasAdjacence(Graph<T> adjacence) {
         return this.adjacences.contains(adjacence);
     }
+    
+    //implementação do busca em profundidade recursivo (pilha na propria recursão)
+    public Graph<T> DFS(Integer id, Map<Integer, Boolean> visitedVerticesMap) {
+    	
+    	if (this.data.id.equals(id)) {
+    		return this; 
+    	}
+    	
+        if (visitedVerticesMap == null) {
+            visitedVerticesMap = new HashMap<>();
+        }
+        
+        visitedVerticesMap.put(this.data.id, true);
+        
+        for (Graph<T> adjacentVertex : this.adjacences) {
+            
+            Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
 
-    public Graph<T> BFS(Integer id, Stack<Graph<T>> pathStack, Map<Integer, Boolean> visitedVerticesMap) {
-        if (this.data.id.equals(id)) {
-            return this;
-        } else {
-            if (visitedVerticesMap == null) {
-                visitedVerticesMap = new HashMap<Integer, Boolean>();
-            }
 
-            visitedVerticesMap.put(this.data.id, true);
-
-            if (pathStack == null) {
-                pathStack = new Stack<Graph<T>>();
-            }
-
-            for (int i = this.adjacences.size() - 1; i >= 0; i--) {
-                Graph<T> adjacentVertex = this.adjacences.get(i);
-
-                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
-
-                if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
-                    pathStack.push(adjacentVertex);
+            if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
+                Graph<T> result = adjacentVertex.DFS(id, visitedVerticesMap);
+                
+                if (result != null) {
+                    return result;
                 }
             }
-
-            Graph<T> vertex = null;
-
-            while (pathStack.size() > 0 && vertex == null) {
-                Graph<T> child = pathStack.pop();
-
-                vertex = child.BFS(id, pathStack, visitedVerticesMap);
-            }
-
-            return vertex;
         }
-    }
-
-    public Graph<T> DFS(Integer id, Queue<Graph<T>> pathQueue, Map<Integer, Boolean> visitedVerticesMap) {
-        if (this.data.id.equals(id)) {
-            return this;
-        } else {
-            if (visitedVerticesMap == null) {
-                visitedVerticesMap = new HashMap<Integer, Boolean>();
-            }
-
-            visitedVerticesMap.put(this.data.id, true);
-
-            if (pathQueue == null) {
-                pathQueue = new LinkedList<Graph<T>>();
-            }
-
-            for (int i = this.adjacences.size() - 1; i >= 0; i--) {
-                Graph<T> adjacentVertex = this.adjacences.get(i);
-
-                Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
-
-                if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
-                    pathQueue.add(adjacentVertex);
-                }
-            }
-
-            Graph<T> vertex = null;
-
-            while (pathQueue.size() > 0 && vertex == null) {
-                Graph<T> child = pathQueue.poll();
-
-                vertex = child.DFS(id, pathQueue, visitedVerticesMap);
-            }
-
-            return vertex;
-        }
+    	
+    	
+       return null;
     }
 
     @Override
