@@ -1,4 +1,4 @@
-package com.aed2.projetos.grafos;
+package com.aed2.projetos.grafos.data;
 
 public class Profile extends GraphData {
     private String name;

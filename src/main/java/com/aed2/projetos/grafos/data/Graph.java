@@ -1,4 +1,4 @@
-package com.aed2.projetos.grafos;
+package com.aed2.projetos.grafos.data;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.aed2.projetos.grafos.dtos;
+package com.aed2.projetos.grafos.readers;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.aed2.projetos.grafos.Graph;
-import com.aed2.projetos.grafos.Profile;
+import com.aed2.projetos.grafos.data.Graph;
+import com.aed2.projetos.grafos.data.Profile;
 
 public class VerticesDatabaseReader {
     public List<Graph<Profile>> readVertices() {
