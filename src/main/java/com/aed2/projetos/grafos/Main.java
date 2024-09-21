@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.aed2.projetos.grafos.data.Graph;
 import com.aed2.projetos.grafos.data.Profile;
+import com.aed2.projetos.grafos.data.ProfileInterests;
 import com.aed2.projetos.grafos.readers.EdgesDatabaseReader;
 import com.aed2.projetos.grafos.readers.VerticesDatabaseReader;
 
@@ -41,7 +42,7 @@ public class Main {
             for (Integer i = 0; i < vertices; i++) {
                 Integer graphId = scanner.nextInt();
 
-                Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, "graphId", new String[1]));
+                Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, "graphId", new ProfileInterests[1]));
 
                 graphNodes.add(graph);
             }

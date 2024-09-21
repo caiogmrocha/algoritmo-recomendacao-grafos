@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.aed2.projetos.grafos.data.Graph;
 import com.aed2.projetos.grafos.data.Profile;
+import com.aed2.projetos.grafos.data.ProfileInterests;
 
 public class VerticesDatabaseReader {
     public List<Graph<Profile>> readVertices() {
@@ -23,7 +24,13 @@ public class VerticesDatabaseReader {
 
                 Integer graphId = Integer.parseInt(colunas[0]);
                 String profileName = colunas[1];
-                String[] profileInterests = colunas[2].split(",");
+                String[] rawProfileInterests = colunas[2].split(",");
+
+                ProfileInterests[] profileInterests = new ProfileInterests[rawProfileInterests.length];
+
+                for (Integer i = 0; i < rawProfileInterests.length; i++) {
+                    profileInterests[i] = ProfileInterests.valueOf(rawProfileInterests[i].toUpperCase());
+                }
 
                 Graph<Profile> graph = new Graph<Profile>(new Profile(graphId, profileName, profileInterests));
 
