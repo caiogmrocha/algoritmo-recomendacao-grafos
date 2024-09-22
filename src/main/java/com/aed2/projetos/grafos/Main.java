@@ -1,10 +1,12 @@
 package com.aed2.projetos.grafos;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
 import com.aed2.projetos.grafos.data.Graph;
 import com.aed2.projetos.grafos.data.Profile;
+import com.aed2.projetos.grafos.data.ProfileInterests;
 import com.aed2.projetos.grafos.readers.EdgesDatabaseReader;
 import com.aed2.projetos.grafos.readers.VerticesDatabaseReader;
 
@@ -23,8 +25,11 @@ public class Main {
             
             //Tornar condição dinâmica ( criar input de interesse, onde usuário escreva qual o assunto de interesse) 
            
-            Predicate<Graph<Profile>> CondicaoBusca = vertice -> vertice.getData().getId() > 8; //criando uma condição de busca
-            
+            Predicate<Graph<Profile>> CondicaoBusca = vertice -> Arrays
+                .asList(vertice.getData().getInterests())
+                .stream()
+                .anyMatch(interest -> interest.equals(ProfileInterests.TECNOLOGIA));
+
             List<Graph<Profile>> ResultadoBusca = Grafo.DFS(CondicaoBusca, null, null);
             
             //Mostrando resultados de busca: 
