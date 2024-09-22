@@ -3,11 +3,13 @@ package com.aed2.projetos.grafos.data;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.HashMap;
 
 public class Graph<T extends GraphData> {
     private T data;
     private List<Graph<T>> adjacences;
+   
 
     public Graph(T data) {
         this.data = data;
@@ -39,34 +41,31 @@ public class Graph<T extends GraphData> {
     }
     
     //implementação do busca em profundidade recursivo (pilha na propria recursão)
-    public Graph<T> DFS(Integer id, Map<Integer, Boolean> visitedVerticesMap) {
-    	
-    	if (this.data.id.equals(id)) {
-    		return this; 
-    	}
-    	
+    public List<Graph<T>> DFS(Predicate <Graph<T>> interesse, Map<T, Boolean> visitedVerticesMap, List<Graph<T>> ListaResposta) {
+    
         if (visitedVerticesMap == null) {
             visitedVerticesMap = new HashMap<>();
         }
         
-        visitedVerticesMap.put(this.data.id, true);
+        if (ListaResposta == null) {
+        	ListaResposta = new ArrayList<>();
+        }
         
+        visitedVerticesMap.put(this.data, true);
+        
+        if (interesse.test(this)) {
+        	ListaResposta.add(this);
+        }
+       
         for (Graph<T> adjacentVertex : this.adjacences) {
-            
-            Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData().getId());
-
+            Boolean vertexIsAlreadyVisited = visitedVerticesMap.get(adjacentVertex.getData());
 
             if (vertexIsAlreadyVisited == null || !vertexIsAlreadyVisited) {
-                Graph<T> result = adjacentVertex.DFS(id, visitedVerticesMap);
-                
-                if (result != null) {
-                    return result;
-                }
+                adjacentVertex.DFS(interesse, visitedVerticesMap, ListaResposta);
             }
         }
     	
-    	
-       return null;
+       return ListaResposta;
     }
 
     @Override

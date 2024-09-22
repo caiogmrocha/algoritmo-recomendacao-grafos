@@ -48,7 +48,8 @@ public class EdgesDatabaseReader {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
         }
 
         return graphNodes;
