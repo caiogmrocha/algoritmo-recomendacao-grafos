@@ -1,5 +1,7 @@
 package com.aed2.projetos.grafos;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -38,7 +40,12 @@ public class Main {
                 List<Graph<Profile>> ResultadoBusca = Grafo.DFS(CondicaoBusca, null, null);
                 
                 System.out.println("Resultados encontrados:");
-                ResultadoBusca.forEach(result -> 
+
+                String filePath = "dados.csv";
+                FileWriter writer = new FileWriter(filePath, true);
+                writer.append("id,nome,interesses\n");
+                
+                ResultadoBusca.forEach(result -> {
                     System.out.println(String.format(
                         "ID: %d, Nome: %s, Interesses: %s", 
                         result.getData().getId(), 
@@ -48,9 +55,25 @@ public class Main {
                                 .map(ProfileInterests::getInterest)
                                 .toArray(String[]::new)
                         )
-                    ))
-                );
-            
+                    ));
+
+                    try {
+                        String csvLine = String.format(
+                            "%d,%s,%s\n", 
+                            result.getData().getId(), 
+                            result.getData().getName(), 
+                            String.join(" ", 
+                                Arrays.stream(result.getData().getInterests())
+                                    .map(ProfileInterests::getInterest)
+                                    .toArray(String[]::new)
+                            )
+                        );
+                        writer.append(csvLine);
+                    } catch (IOException e) {
+                        e.printStackTrace(); 
+                    }
+                });
+                writer.close();
                 
             } catch (IllegalArgumentException e) {
                 System.out.println("Nenhum resultado encontrado para o interesse: " + interesse);
